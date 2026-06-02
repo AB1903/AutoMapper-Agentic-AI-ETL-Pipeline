@@ -99,7 +99,7 @@ automapper/
 ```bash
 # Install from https://ollama.com
 ollama serve                    # start Ollama
-ollama pull codellama:7b        # download the model (~3.8GB)
+ollama pull qwen2:1.5b        # download the model (~3.8GB)
 ```
 
 ### 2. Clone and install Python dependencies
