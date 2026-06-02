@@ -1,0 +1,46 @@
+# AutoMapper — central configuration
+# All scripts and agents read from here only.
+
+ollama:
+  # Runs on Mac HOST — not inside Docker
+  # Docker containers reach it via host.docker.internal
+  host:        "http://localhost:11434"
+  model:       "qwen2:1.5b"
+  temperature: 0.1        # low = more deterministic SQL/code
+  timeout:     120        # seconds — 7b model needs time on first call
+
+api:
+  host:        "0.0.0.0"
+  port:        8003        # avoids conflict with existing projects
+  workers:     1           # single worker — Ollama is the bottleneck
+
+pipeline:
+  max_sample_rows:    100   # rows sampled for schema analysis
+  anomaly_threshold:  0.05  # flag column if >5% nulls or outliers
+  confidence_low:     0.60  # below this = needs human review
+  confidence_high:    0.90  # above this = auto-approve mapping
+
+data:
+  sample_dir:  "data/sample"
+  output_dir:  "data/output"
+  upload_dir:  "data/uploads"
+
+# Known target schemas AutoMapper can map to
+# Add your own here as the system grows
+target_schemas:
+  retail_dwh:
+    description: "Retail Analytics Data Warehouse — Ankush Bhatt Project 1"
+    tables:
+      - staging.raw_transactions
+      - staging.raw_customers
+      - staging.raw_products
+      - core.dim_customer
+      - core.dim_product
+      - core.fact_transactions
+
+  generic_sales:
+    description: "Generic sales data schema"
+    tables:
+      - transactions
+      - customers
+      - products

@@ -1,0 +1,201 @@
+product_code,item_name,main_category,sub_category,brand_name,purchase_cost,retail_price,available
+P00001,ZenTech Shoes 882,Clothing,Shoes,ZenTech,€106.37,€317.53,Yes
+P00002,PureHome Trousers 553,Clothing,Trousers,PureHome,€97.79,€142.54,No
+P00003,AlphaGear Swimwear 823,Sports,Swimwear,NordStyle,€258.81,€565.85,No
+P00004,ZenTech Shoes 682,Clothing,Shoes,PureHome,€119.78,€294.19,no
+P00005,ZenTech Shoes 500,Clothing,Shoes,AlphaGear,€257.03,€563.28,no
+P00006,AlphaGear Swimwear 428,Sports,Swimwear,ZenTech,€109.07,€157.61,Yes
+P00007,ZenTech Laptops 883,Electronics,Laptops,AlphaGear,€107.92,€216.8,no
+P00008,ZenTech Trousers 777,Clothing,Trousers,NordStyle,€126.52,€227.25,yes
+P00009,ZenTech Gym Equipment 989,Sports,Gym Equipment,AlphaGear,€273.56,€433.09,No
+P00010,PureHome Headphones 773,Electronics,Headphones,PureHome,€101.2,€233.66,no
+P00011,ZenTech Shirts 424,Clothing,Shirts,PureHome,€210.31,€486.36,yes
+P00012,ZenTech Gym Equipment 807,Sports,Gym Equipment,NordStyle,€243.46,€471.72,yes
+P00013,PureHome Headphones 306,Electronics,Headphones,PureHome,€93.36,€225.62,Yes
+P00014,ZenTech Gym Equipment 404,Sports,Gym Equipment,PureHome,€89.77,€241.24,Yes
+P00015,AlphaGear Swimwear 379,Sports,Swimwear,ZenTech,€32.95,€75.99,no
+P00016,ZenTech Shirts 767,Clothing,Shirts,AlphaGear,€107.46,€237.21,yes
+P00017,NordStyle Shoes 524,Clothing,Shoes,PureHome,€164.28,€296.04,no
+P00018,ZenTech Swimwear 742,Sports,Swimwear,NordStyle,€58.28,€135.38,No
+P00019,AlphaGear Swimwear 753,Sports,Swimwear,PureHome,€281.74,€815.75,Yes
+P00020,NordStyle Gym Equipment 346,Sports,Gym Equipment,NordStyle,€112.46,€291.75,yes
+P00021,ZenTech Trousers 749,Clothing,Trousers,NordStyle,€99.0,€272.6,yes
+P00022,NordStyle Shoes 515,Clothing,Shoes,NordStyle,€52.37,€82.83,No
+P00023,AlphaGear Smartphones 575,Electronics,Smartphones,PureHome,€240.13,€551.27,no
+P00024,NordStyle Shoes 263,Clothing,Shoes,AlphaGear,€272.17,€440.45,yes
+P00025,ZenTech Shoes 839,Clothing,Shoes,PureHome,€167.46,€444.03,Yes
+P00026,ZenTech Laptops 516,Electronics,Laptops,AlphaGear,€182.47,€451.55,Yes
+P00027,NordStyle Shoes 214,Clothing,Shoes,ZenTech,€253.61,€566.85,yes
+P00028,ZenTech Shirts 891,Clothing,Shirts,AlphaGear,€75.23,€144.96,no
+P00029,PureHome Swimwear 323,Sports,Swimwear,NordStyle,€74.6,€117.19,No
+P00030,ZenTech Trousers 602,Clothing,Trousers,AlphaGear,€125.47,€316.11,Yes
+P00031,NordStyle Shoes 384,Clothing,Shoes,NordStyle,€130.02,€257.54,yes
+P00032,ZenTech Shirts 961,Clothing,Shirts,ZenTech,€195.39,€489.47,No
+P00033,AlphaGear Shoes 931,Clothing,Shoes,ZenTech,€118.48,€267.27,No
+P00034,PureHome Trousers 361,Clothing,Trousers,AlphaGear,€7.32,€11.31,No
+P00035,NordStyle Shirts 549,Clothing,Shirts,AlphaGear,€258.53,€725.73,no
+P00036,PureHome Laptops 582,Electronics,Laptops,PureHome,€260.6,€751.15,yes
+P00037,ZenTech Cycling 944,Sports,Cycling,NordStyle,€263.64,€663.73,Yes
+P00038,AlphaGear Trousers 564,Clothing,Trousers,ZenTech,€182.62,€478.31,No
+P00039,NordStyle Cycling 103,Sports,Cycling,PureHome,€238.35,€409.99,yes
+P00040,NordStyle Shoes 355,Clothing,Shoes,NordStyle,€29.26,€80.62,no
+P00041,NordStyle Trousers 366,Clothing,Trousers,NordStyle,€146.12,€365.29,yes
+P00042,AlphaGear Shirts 286,Clothing,Shirts,PureHome,€29.9,€83.79,No
+P00043,NordStyle Smartphones 191,Electronics,Smartphones,PureHome,€277.32,€476.22,No
+P00044,AlphaGear Laptops 252,Electronics,Laptops,ZenTech,€187.31,€549.35,No
+P00045,PureHome Gym Equipment 891,Sports,Gym Equipment,PureHome,€9.16,€24.95,no
+P00046,NordStyle Smartphones 982,Electronics,Smartphones,AlphaGear,€215.5,€400.99,no
+P00047,NordStyle Shirts 714,Clothing,Shirts,NordStyle,€132.24,€395.71,yes
+P00048,NordStyle Swimwear 518,Sports,Swimwear,NordStyle,€60.86,€88.01,yes
+P00049,NordStyle Headphones 478,Electronics,Headphones,PureHome,€138.04,€212.19,no
+P00050,PureHome Laptops 803,Electronics,Laptops,NordStyle,€292.45,€743.21,no
+P00051,ZenTech Swimwear 670,Sports,Swimwear,ZenTech,€80.59,€119.55,No
+P00052,ZenTech Trousers 105,Clothing,Trousers,AlphaGear,€299.04,€660.06,no
+P00053,NordStyle Trousers 672,Clothing,Trousers,ZenTech,€203.02,€472.79,yes
+P00054,AlphaGear Headphones 998,Electronics,Headphones,PureHome,€150.39,€242.29,yes
+P00055,AlphaGear Swimwear 219,Sports,Swimwear,AlphaGear,€132.71,€195.17,No
+P00056,PureHome Trousers 389,Clothing,Trousers,AlphaGear,€225.61,€537.11,yes
+P00057,NordStyle Cycling 423,Sports,Cycling,PureHome,€133.55,€350.15,No
+P00058,PureHome Swimwear 154,Sports,Swimwear,NordStyle,€192.81,€315.78,No
+P00059,NordStyle Smartphones 822,Electronics,Smartphones,PureHome,€143.72,€301.57,no
+P00060,PureHome Laptops 568,Electronics,Laptops,PureHome,€110.17,€174.07,No
+P00061,AlphaGear Laptops 284,Electronics,Laptops,NordStyle,€32.61,€84.78,yes
+P00062,ZenTech Swimwear 638,Sports,Swimwear,NordStyle,€177.77,€367.32,Yes
+P00063,AlphaGear Laptops 126,Electronics,Laptops,AlphaGear,€204.69,€509.7,Yes
+P00064,ZenTech Trousers 957,Clothing,Trousers,AlphaGear,€179.15,€294.89,Yes
+P00065,PureHome Shoes 743,Clothing,Shoes,AlphaGear,€199.56,€469.11,Yes
+P00066,PureHome Shirts 432,Clothing,Shirts,NordStyle,€198.57,€345.15,Yes
+P00067,ZenTech Cycling 861,Sports,Cycling,ZenTech,€100.34,€228.32,no
+P00068,NordStyle Laptops 889,Electronics,Laptops,PureHome,€80.27,€123.83,No
+P00069,AlphaGear Laptops 762,Electronics,Laptops,NordStyle,€234.95,€374.27,no
+P00070,AlphaGear Shoes 801,Clothing,Shoes,NordStyle,€242.87,€479.54,Yes
+P00071,PureHome Shoes 497,Clothing,Shoes,PureHome,€63.96,€117.02,no
+P00072,NordStyle Laptops 544,Electronics,Laptops,PureHome,€244.24,€378.26,yes
+P00073,NordStyle Shoes 607,Clothing,Shoes,ZenTech,€71.15,€132.7,no
+P00074,NordStyle Laptops 800,Electronics,Laptops,AlphaGear,€93.62,€257.12,no
+P00075,ZenTech Shoes 146,Clothing,Shoes,ZenTech,€19.08,€42.3,no
+P00076,AlphaGear Laptops 463,Electronics,Laptops,AlphaGear,€199.95,€467.26,Yes
+P00077,NordStyle Headphones 905,Electronics,Headphones,NordStyle,€200.17,€550.2,Yes
+P00078,AlphaGear Laptops 421,Electronics,Laptops,PureHome,€263.64,€688.57,no
+P00079,NordStyle Cycling 316,Sports,Cycling,NordStyle,€105.69,€161.19,yes
+P00080,ZenTech Gym Equipment 105,Sports,Gym Equipment,PureHome,€132.97,€210.98,No
+P00081,PureHome Cycling 989,Sports,Cycling,PureHome,€140.75,€265.24,yes
+P00082,PureHome Swimwear 923,Sports,Swimwear,AlphaGear,€289.13,€445.32,No
+P00083,ZenTech Smartphones 812,Electronics,Smartphones,NordStyle,€38.01,€105.46,No
+P00084,NordStyle Shoes 546,Clothing,Shoes,NordStyle,€47.82,€73.54,no
+P00085,ZenTech Laptops 270,Electronics,Laptops,NordStyle,€129.45,€334.25,no
+P00086,PureHome Trousers 699,Clothing,Trousers,NordStyle,€10.79,€18.58,no
+P00087,PureHome Laptops 525,Electronics,Laptops,PureHome,€7.32,€18.88,yes
+P00088,PureHome Laptops 337,Electronics,Laptops,ZenTech,€122.91,€275.97,no
+P00089,AlphaGear Cycling 763,Sports,Cycling,PureHome,€168.21,€474.79,Yes
+P00090,AlphaGear Shoes 559,Clothing,Shoes,PureHome,€281.99,€404.17,yes
+P00091,PureHome Gym Equipment 337,Sports,Gym Equipment,NordStyle,€143.43,€335.66,yes
+P00092,NordStyle Swimwear 400,Sports,Swimwear,PureHome,€198.8,€583.61,yes
+P00093,AlphaGear Shirts 807,Clothing,Shirts,ZenTech,€188.44,€464.94,No
+P00094,PureHome Smartphones 203,Electronics,Smartphones,PureHome,€51.11,€148.67,no
+P00095,ZenTech Shirts 118,Clothing,Shirts,AlphaGear,€66.78,€187.62,yes
+P00096,ZenTech Gym Equipment 926,Sports,Gym Equipment,ZenTech,€56.54,€109.71,Yes
+P00097,NordStyle Gym Equipment 598,Sports,Gym Equipment,AlphaGear,€40.6,€121.39,yes
+P00098,NordStyle Headphones 973,Electronics,Headphones,ZenTech,€83.91,€212.31,no
+P00099,ZenTech Shirts 943,Clothing,Shirts,ZenTech,€292.52,€646.96,No
+P00100,AlphaGear Gym Equipment 260,Sports,Gym Equipment,AlphaGear,€261.91,€663.43,no
+P00101,AlphaGear Gym Equipment 442,Sports,Gym Equipment,NordStyle,€50.52,€80.67,No
+P00102,ZenTech Trousers 351,Clothing,Trousers,PureHome,€231.92,€451.34,No
+P00103,PureHome Laptops 469,Electronics,Laptops,NordStyle,€114.87,€188.68,no
+P00104,PureHome Smartphones 519,Electronics,Smartphones,PureHome,€241.52,€705.95,yes
+P00105,ZenTech Laptops 834,Electronics,Laptops,ZenTech,€47.95,€73.63,yes
+P00106,PureHome Shirts 877,Clothing,Shirts,ZenTech,€133.05,€326.81,No
+P00107,AlphaGear Gym Equipment 529,Sports,Gym Equipment,PureHome,€293.43,€826.67,yes
+P00108,AlphaGear Swimwear 108,Sports,Swimwear,AlphaGear,€97.54,€277.05,No
+P00109,NordStyle Cycling 657,Sports,Cycling,PureHome,€136.63,€343.75,no
+P00110,AlphaGear Laptops 499,Electronics,Laptops,NordStyle,€29.86,€66.67,yes
+P00111,AlphaGear Smartphones 633,Electronics,Smartphones,AlphaGear,€155.94,€407.2,No
+P00112,AlphaGear Smartphones 347,Electronics,Smartphones,AlphaGear,€267.64,€685.8,Yes
+P00113,AlphaGear Gym Equipment 742,Sports,Gym Equipment,AlphaGear,€253.27,€404.75,Yes
+P00114,ZenTech Trousers 564,Clothing,Trousers,AlphaGear,€173.87,€516.87,No
+P00115,NordStyle Trousers 831,Clothing,Trousers,PureHome,€88.94,€198.47,No
+P00116,NordStyle Laptops 942,Electronics,Laptops,AlphaGear,€157.35,€334.67,No
+P00117,ZenTech Cycling 194,Sports,Cycling,ZenTech,€249.39,€518.69,No
+P00118,AlphaGear Shirts 793,Clothing,Shirts,PureHome,€136.62,€319.85,no
+P00119,PureHome Shoes 550,Clothing,Shoes,PureHome,€152.15,€391.14,no
+P00120,PureHome Smartphones 828,Electronics,Smartphones,PureHome,€154.21,€247.82,Yes
+P00121,ZenTech Gym Equipment 864,Sports,Gym Equipment,NordStyle,€139.35,€405.58,yes
+P00122,ZenTech Headphones 223,Electronics,Headphones,AlphaGear,€256.43,€593.59,Yes
+P00123,AlphaGear Gym Equipment 483,Sports,Gym Equipment,AlphaGear,€39.73,€74.31,Yes
+P00124,PureHome Smartphones 149,Electronics,Smartphones,AlphaGear,€236.22,€666.73,No
+P00125,ZenTech Headphones 660,Electronics,Headphones,AlphaGear,€149.19,€224.99,Yes
+P00126,PureHome Trousers 445,Clothing,Trousers,PureHome,€174.05,€376.01,No
+P00127,PureHome Headphones 783,Electronics,Headphones,PureHome,€192.76,€315.81,yes
+P00128,PureHome Headphones 496,Electronics,Headphones,NordStyle,€201.03,€571.0,yes
+P00129,PureHome Gym Equipment 853,Sports,Gym Equipment,AlphaGear,€287.63,€699.94,No
+P00130,AlphaGear Gym Equipment 674,Sports,Gym Equipment,ZenTech,€173.74,€422.23,Yes
+P00131,ZenTech Headphones 683,Electronics,Headphones,NordStyle,€164.84,€428.73,Yes
+P00132,NordStyle Headphones 119,Electronics,Headphones,AlphaGear,€281.17,€747.58,No
+P00133,AlphaGear Swimwear 511,Sports,Swimwear,ZenTech,€136.05,€297.45,Yes
+P00134,ZenTech Trousers 980,Clothing,Trousers,AlphaGear,€58.25,€117.15,Yes
+P00135,AlphaGear Smartphones 247,Electronics,Smartphones,NordStyle,€164.82,€298.14,Yes
+P00136,NordStyle Laptops 160,Electronics,Laptops,AlphaGear,€285.89,€483.25,Yes
+P00137,NordStyle Trousers 522,Clothing,Trousers,AlphaGear,€34.13,€61.87,Yes
+P00138,NordStyle Smartphones 604,Electronics,Smartphones,PureHome,€75.69,€220.94,yes
+P00139,PureHome Laptops 167,Electronics,Laptops,PureHome,€142.12,€205.54,No
+P00140,ZenTech Laptops 352,Electronics,Laptops,NordStyle,€168.45,€317.93,no
+P00141,NordStyle Shirts 901,Clothing,Shirts,NordStyle,€254.65,€508.61,No
+P00142,PureHome Headphones 142,Electronics,Headphones,ZenTech,€286.02,€772.32,yes
+P00143,PureHome Gym Equipment 379,Sports,Gym Equipment,AlphaGear,€5.16,€14.15,no
+P00144,AlphaGear Shoes 146,Clothing,Shoes,NordStyle,€67.76,€175.0,Yes
+P00145,ZenTech Shirts 950,Clothing,Shirts,NordStyle,€121.61,€311.34,yes
+P00146,AlphaGear Shirts 798,Clothing,Shirts,AlphaGear,€185.08,€447.2,no
+P00147,AlphaGear Shirts 449,Clothing,Shirts,NordStyle,€200.37,€427.93,yes
+P00148,ZenTech Headphones 723,Electronics,Headphones,PureHome,€44.45,€62.53,Yes
+P00149,PureHome Gym Equipment 880,Sports,Gym Equipment,PureHome,€126.88,€286.88,Yes
+P00150,PureHome Gym Equipment 788,Sports,Gym Equipment,ZenTech,€268.31,€527.17,no
+P00151,ZenTech Cycling 227,Sports,Cycling,PureHome,€119.09,€237.32,No
+P00152,ZenTech Shirts 876,Clothing,Shirts,AlphaGear,€70.35,€175.09,yes
+P00153,AlphaGear Smartphones 927,Electronics,Smartphones,NordStyle,€245.8,€436.25,no
+P00154,NordStyle Shirts 107,Clothing,Shirts,NordStyle,€87.82,€261.25,no
+P00155,PureHome Laptops 274,Electronics,Laptops,NordStyle,€172.89,€424.57,No
+P00156,ZenTech Headphones 230,Electronics,Headphones,AlphaGear,€42.83,€123.94,No
+P00157,NordStyle Swimwear 968,Sports,Swimwear,ZenTech,€235.76,€704.24,yes
+P00158,ZenTech Swimwear 537,Sports,Swimwear,ZenTech,€265.52,€734.47,yes
+P00159,PureHome Trousers 607,Clothing,Trousers,AlphaGear,€85.84,€191.22,Yes
+P00160,PureHome Gym Equipment 645,Sports,Gym Equipment,PureHome,€18.85,€35.93,no
+P00161,ZenTech Laptops 855,Electronics,Laptops,NordStyle,€29.13,€86.37,no
+P00162,AlphaGear Smartphones 418,Electronics,Smartphones,ZenTech,€63.08,€151.49,Yes
+P00163,ZenTech Laptops 706,Electronics,Laptops,AlphaGear,€132.42,€363.47,No
+P00164,AlphaGear Laptops 952,Electronics,Laptops,ZenTech,€75.32,€204.46,No
+P00165,ZenTech Headphones 740,Electronics,Headphones,PureHome,€187.77,€436.81,Yes
+P00166,ZenTech Smartphones 901,Electronics,Smartphones,NordStyle,€116.33,€174.4,no
+P00167,PureHome Laptops 167,Electronics,Laptops,ZenTech,€185.17,€459.98,Yes
+P00168,PureHome Trousers 338,Clothing,Trousers,ZenTech,€123.5,€262.49,no
+P00169,AlphaGear Shoes 766,Clothing,Shoes,ZenTech,€187.67,€399.08,yes
+P00170,ZenTech Gym Equipment 709,Sports,Gym Equipment,ZenTech,€36.86,€86.57,No
+P00171,AlphaGear Gym Equipment 463,Sports,Gym Equipment,PureHome,€193.02,€418.9,no
+P00172,ZenTech Smartphones 161,Electronics,Smartphones,NordStyle,€45.61,€86.6,no
+P00173,AlphaGear Swimwear 697,Sports,Swimwear,NordStyle,€227.54,€372.22,yes
+P00174,ZenTech Cycling 630,Sports,Cycling,NordStyle,€90.86,€135.54,Yes
+P00175,NordStyle Trousers 755,Clothing,Trousers,NordStyle,€62.65,€166.42,yes
+P00176,PureHome Headphones 714,Electronics,Headphones,AlphaGear,€145.34,€401.61,yes
+P00177,NordStyle Cycling 207,Sports,Cycling,PureHome,€128.52,€360.08,Yes
+P00178,NordStyle Shirts 809,Clothing,Shirts,NordStyle,€276.39,€593.26,No
+P00179,AlphaGear Laptops 926,Electronics,Laptops,PureHome,€221.7,€383.21,No
+P00180,AlphaGear Laptops 130,Electronics,Laptops,ZenTech,€7.92,€12.89,no
+P00181,AlphaGear Headphones 144,Electronics,Headphones,ZenTech,€177.78,€305.53,yes
+P00182,NordStyle Smartphones 447,Electronics,Smartphones,NordStyle,€266.19,€448.71,Yes
+P00183,ZenTech Laptops 951,Electronics,Laptops,NordStyle,€273.64,€549.0,Yes
+P00184,NordStyle Shirts 478,Clothing,Shirts,AlphaGear,€95.0,€233.46,no
+P00185,NordStyle Gym Equipment 913,Sports,Gym Equipment,NordStyle,€39.96,€68.2,no
+P00186,PureHome Cycling 751,Sports,Cycling,NordStyle,€98.8,€283.91,No
+P00187,AlphaGear Cycling 353,Sports,Cycling,ZenTech,€237.93,€572.73,yes
+P00188,PureHome Headphones 314,Electronics,Headphones,ZenTech,€290.67,€771.86,Yes
+P00189,AlphaGear Headphones 610,Electronics,Headphones,PureHome,€119.49,€201.51,yes
+P00190,PureHome Swimwear 585,Sports,Swimwear,AlphaGear,€147.57,€343.82,Yes
+P00191,PureHome Smartphones 983,Electronics,Smartphones,NordStyle,€268.99,€546.98,yes
+P00192,AlphaGear Trousers 360,Clothing,Trousers,ZenTech,€173.55,€280.27,Yes
+P00193,NordStyle Trousers 697,Clothing,Trousers,ZenTech,€158.05,€338.92,yes
+P00194,PureHome Trousers 476,Clothing,Trousers,PureHome,€142.93,€272.6,no
+P00195,AlphaGear Smartphones 760,Electronics,Smartphones,ZenTech,€135.3,€267.16,Yes
+P00196,ZenTech Shoes 904,Clothing,Shoes,AlphaGear,€156.27,€450.46,Yes
+P00197,NordStyle Smartphones 441,Electronics,Smartphones,NordStyle,€111.27,€275.97,yes
+P00198,AlphaGear Shoes 295,Clothing,Shoes,NordStyle,€245.59,€736.14,yes
+P00199,AlphaGear Laptops 901,Electronics,Laptops,PureHome,€88.14,€256.78,Yes
+P00200,NordStyle Shoes 986,Clothing,Shoes,PureHome,€156.23,€275.61,No

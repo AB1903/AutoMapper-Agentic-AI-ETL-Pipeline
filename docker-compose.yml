@@ -1,0 +1,62 @@
+# ─────────────────────────────────────────────────────────────
+# AutoMapper — Docker Compose
+#
+# Services:
+#   automapper   — FastAPI backend on port 8003
+#   postgres     — Target PostgreSQL DWH on port 5433
+#
+# NOTE: Ollama runs on the Mac HOST, not here.
+#       It is reached from the container via host.docker.internal:11434
+#
+# Usage:
+#   docker-compose up --build
+#   docker-compose down -v     (to wipe data)
+# ─────────────────────────────────────────────────────────────
+
+version: "3.9"
+
+services:
+
+  # ── AutoMapper API ────────────────────────────────────────
+  automapper:
+    build: .
+    container_name: automapper_api
+    ports:
+      - "8003:8003"
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - DATABASE_URL=postgresql://dwh_user:dwh_pass@postgres:5432/retail_dwh
+      - PYTHONPATH=/app
+    volumes:
+      - ./data:/app/data          # persist uploads and outputs
+      - ./config:/app/config      # live config reload
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Linux Docker compatibility
+
+  # ── Target PostgreSQL DWH ─────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: automapper_postgres
+    ports:
+      - "5433:5432"               # 5433 to avoid conflicts with local PG
+    environment:
+      POSTGRES_DB:       retail_dwh
+      POSTGRES_USER:     dwh_user
+      POSTGRES_PASSWORD: dwh_pass
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dwh_user -d retail_dwh"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+    driver: local

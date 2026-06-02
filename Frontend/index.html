@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoMapper — ETL Pipeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0a0f;
+    --surface:   #111118;
+    --surface2:  #1a1a24;
+    --border:    #2a2a3a;
+    --accent:    #00e5ff;
+    --accent2:   #7c3aed;
+    --green:     #00ff88;
+    --yellow:    #ffd60a;
+    --red:       #ff4757;
+    --text:      #e8e8f0;
+    --muted:     #6b6b80;
+    --mono:      'Space Mono', monospace;
+    --sans:      'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Grid background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 28px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,15,0.9);
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .logo-text {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--surface);
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+
+  .status-pill.online { border-color: var(--green); color: var(--green); }
+  .status-pill.offline { border-color: var(--red); color: var(--red); }
+
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── Main layout ── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 40px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(0,229,255,0.3);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 300;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ── Upload card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    transition: border-color 0.3s;
+  }
+
+  .card:hover { border-color: rgba(0,229,255,0.2); }
+
+  .card-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title::before {
+    content: '';
+    width: 3px; height: 14px;
+    background: var(--accent);
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  /* ── Drop zone ── */
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 48px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .drop-zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,229,255,0.04) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(0,229,255,0.03);
+  }
+
+  .drop-zone:hover::before, .drop-zone.dragover::before { opacity: 1; }
+
+  .drop-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .drop-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .drop-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .file-selected {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: rgba(0,255,136,0.08);
+    border: 1px solid rgba(0,255,136,0.2);
+    border-radius: 8px;
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-top: 16px;
+  }
+
+  .file-selected.show { display: flex; }
+
+  /* ── Form row ── */
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    transition: border-color 0.2s;
+  }
+
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* ── Run button ── */
+  .btn-run {
+    width: 100%;
+    margin-top: 24px;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 10px;
+    color: #000;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-run:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 32px rgba(0,229,255,0.3);
+  }
+
+  .btn-run:active { transform: translateY(0); }
+  .btn-run:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── Progress ── */
+  .progress-card {
+    display: none;
+  }
+
+  .progress-card.show { display: block; }
+
+  .pipeline-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    transition: all 0.4s;
+  }
+
+  .step.active {
+    border-color: var(--accent);
+    background: rgba(0,229,255,0.05);
+  }
+
+  .step.done {
+    border-color: rgba(0,255,136,0.3);
+    background: rgba(0,255,136,0.04);
+  }
+
+  .step.error {
+    border-color: rgba(255,71,87,0.3);
+    background: rgba(255,71,87,0.04);
+  }
+
+  .step-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    background: var(--border);
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+
+  .step.active .step-icon {
+    background: rgba(0,229,255,0.15);
+    animation: spin-subtle 1s ease-in-out infinite alternate;
+  }
+
+  .step.done .step-icon { background: rgba(0,255,136,0.15); }
+
+  @keyframes spin-subtle {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+  }
+
+  .step-info { flex: 1; }
+
+  .step-name {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .step-desc {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .step-status {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .step.active .step-status { color: var(--accent); }
+  .step.done .step-status { color: var(--green); }
+
+  /* ── Results ── */
+  .results-card { display: none; }
+  .results-card.show { display: block; }
+
+  /* Summary stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .stat-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .stat-box.green .stat-value { color: var(--green); }
+  .stat-box.yellow .stat-value { color: var(--yellow); }
+  .stat-box.red .stat-value { color: var(--red); }
+  .stat-box.cyan .stat-value { color: var(--accent); }
+
+  /* Mappings table */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead { background: var(--surface2); }
+
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(42,42,58,0.5);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.01); }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+
+  .badge.approved { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
+  .badge.review   { background: rgba(255,214,10,0.1); color: var(--yellow); border: 1px solid rgba(255,214,10,0.2); }
+  .badge.manual   { background: rgba(255,71,87,0.1);  color: var(--red);    border: 1px solid rgba(255,71,87,0.2); }
+
+  .conf-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .conf-track {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    min-width: 60px;
+  }
+
+  .conf-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transition: width 0.8s ease;
+  }
+
+  .conf-val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 32px;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: var(--accent);
+  }
+
+  /* Anomalies */
+  .anomaly-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .anomaly-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: rgba(255,71,87,0.05);
+    border: 1px solid rgba(255,71,87,0.2);
+  }
+
+  .anomaly-item.warn {
+    background: rgba(255,214,10,0.05);
+    border-color: rgba(255,214,10,0.2);
+  }
+
+  .anomaly-icon { font-size: 18px; margin-top: 1px; }
+
+  .anomaly-body { flex: 1; }
+
+  .anomaly-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .anomaly-fix {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* Quality score ring */
+  .quality-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 24px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 24px;
+  }
+
+  .quality-ring {
+    position: relative;
+    width: 72px; height: 72px;
+    flex-shrink: 0;
+  }
+
+  .quality-ring svg { transform: rotate(-90deg); }
+
+  .quality-ring-num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .quality-info h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .quality-info p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Download button */
+  .btn-download {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 1px solid var(--green);
+    border-radius: 10px;
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+
+  .btn-download:hover {
+    background: rgba(0,255,136,0.08);
+    box-shadow: 0 0 24px rgba(0,255,136,0.15);
+  }
+
+  /* ── Error banner ── */
+  .error-banner {
+    display: none;
+    padding: 14px 18px;
+    border-radius: 8px;
+    background: rgba(255,71,87,0.08);
+    border: 1px solid rgba(255,71,87,0.3);
+    color: var(--red);
+    font-size: 13px;
+    margin-top: 16px;
+  }
+
+  .error-banner.show { display: block; }
+
+  /* ── Section label ── */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Unmapped */
+  .unmapped-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .unmapped-tag {
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: rgba(255,71,87,0.08);
+    border: 1px solid rgba(255,71,87,0.2);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--red);
+  }
+
+  /* hidden file input */
+  #fileInput { display: none; }
+
+  /* Loader spinner */
+  @keyframes rotate { to { transform: rotate(360deg); } }
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-top-color: #000;
+    border-radius: 50%;
+    animation: rotate 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🗺</div>
+    <div class="logo-text">Auto<span>Mapper</span></div>
+  </div>
+  <div class="status-pill" id="statusPill">
+    <div class="status-dot"></div>
+    <span id="statusText">Checking…</span>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-tag">5-Agent ETL Pipeline</div>
+    <h1>Map any CSV to your<br><em>Data Warehouse</em></h1>
+    <p>Upload a source file, pick a target schema — AutoMapper handles the rest using local AI.</p>
+  </div>
+
+  <!-- Upload card -->
+  <div class="card">
+    <div class="card-title">01 — Upload & Configure</div>
+
+    <div class="drop-zone" id="dropZone">
+      <span class="drop-icon">📂</span>
+      <div class="drop-title">Drop your CSV file here</div>
+      <div class="drop-sub">or click to browse</div>
+      <input type="file" id="fileInput" accept=".csv">
+      <div class="file-selected" id="fileSelected">
+        <span>✅</span>
+        <span id="fileName">—</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Target Schema</label>
+        <select id="targetSchema">
+          <option value="retail_dwh">retail_dwh — Retail Analytics DWH</option>
+          <option value="generic_sales">generic_sales — Generic Sales</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Target Table</label>
+        <select id="targetTable">
+          <option value="staging.raw_transactions">staging.raw_transactions</option>
+          <option value="staging.raw_customers">staging.raw_customers</option>
+          <option value="staging.raw_products">staging.raw_products</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-run" id="runBtn" onclick="runPipeline()">
+      ▶ Run AutoMapper Pipeline
+    </button>
+
+    <div class="error-banner" id="errorBanner"></div>
+  </div>
+
+  <!-- Progress card -->
+  <div class="card progress-card" id="progressCard">
+    <div class="card-title">02 — Pipeline Running</div>
+    <div class="pipeline-steps" id="pipelineSteps">
+      <div class="step" id="step1">
+        <div class="step-icon">🔍</div>
+        <div class="step-info">
+          <div class="step-name">Schema Analyzer</div>
+          <div class="step-desc">Agent 1 — profiling columns, types, nulls</div>
+        </div>
+        <div class="step-status" id="step1Status">waiting</div>
+      </div>
+      <div class="step" id="step2">
+        <div class="step-icon">🧠</div>
+        <div class="step-info">
+          <div class="step-name">LLM Mapper</div>
+          <div class="step-desc">Agent 2 — AI column mapping via Ollama</div>
+        </div>
+        <div class="step-status" id="step2Status">waiting</div>
+      </div>
+      <div class="step" id="step3">
+        <div class="step-icon">✅</div>
+        <div class="step-info">
+          <div class="step-name">Type Validator</div>
+          <div class="step-desc">Agent 3 — type compatibility & SQL casts</div>
+        </div>
+        <div class="step-status" id="step3Status">waiting</div>
+      </div>
+      <div class="step" id="step4">
+        <div class="step-icon">🚨</div>
+        <div class="step-info">
+          <div class="step-name">Anomaly Detector</div>
+          <div class="step-desc">Agent 4 — nulls, outliers, duplicates</div>
+        </div>
+        <div class="step-status" id="step4Status">waiting</div>
+      </div>
+      <div class="step" id="step5">
+        <div class="step-icon">⚙️</div>
+        <div class="step-info">
+          <div class="step-name">Code Generator</div>
+          <div class="step-desc">Agent 5 — generating ETL Python script</div>
+        </div>
+        <div class="step-status" id="step5Status">waiting</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results card -->
+  <div class="card results-card" id="resultsCard">
+    <div class="card-title">03 — Results</div>
+
+    <!-- Quality score -->
+    <div class="quality-section" id="qualitySection"></div>
+
+    <!-- Summary stats -->
+    <div class="section-label">Mapping Summary</div>
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <!-- Mappings table -->
+    <div class="section-label">Column Mappings</div>
+    <div class="table-wrap" id="mappingsTable"></div>
+
+    <!-- Unmapped -->
+    <div id="unmappedSection" style="display:none">
+      <div class="section-label">Unmapped Columns</div>
+      <div class="unmapped-list" id="unmappedList"></div>
+    </div>
+
+    <!-- Anomalies -->
+    <div id="anomaliesSection" style="display:none">
+      <div class="section-label">Data Quality Issues</div>
+      <div class="anomaly-list" id="anomalyList"></div>
+    </div>
+
+    <!-- Download -->
+    <div class="section-label">Generated ETL Script</div>
+    <a class="btn-download" id="downloadBtn" href="#" target="_blank">
+      ⬇ Download Python ETL Script
+    </a>
+  </div>
+</main>
+
+<script>
+  const API = 'http://localhost:8003';
+
+  // ── Health check ───────────────────────────────────────────
+  async function checkHealth() {
+    try {
+      const r = await fetch(`${API}/health`);
+      const d = await r.json();
+      const pill = document.getElementById('statusPill');
+      const txt  = document.getElementById('statusText');
+      if (d.ollama_running) {
+        pill.className = 'status-pill online';
+        txt.textContent = `${d.ollama_model} — ready`;
+      } else {
+        pill.className = 'status-pill offline';
+        txt.textContent = 'Ollama offline';
+      }
+    } catch {
+      document.getElementById('statusPill').className = 'status-pill offline';
+      document.getElementById('statusText').textContent = 'API offline';
+    }
+  }
+
+  checkHealth();
+  setInterval(checkHealth, 10000);
+
+  // ── File drop ─────────────────────────────────────────────
+  const dropZone  = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  let selectedFile = null;
+
+  dropZone.onclick = () => fileInput.click();
+
+  fileInput.onchange = e => setFile(e.target.files[0]);
+
+  dropZone.ondragover = e => { e.preventDefault(); dropZone.classList.add('dragover'); };
+  dropZone.ondragleave = () => dropZone.classList.remove('dragover');
+  dropZone.ondrop = e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    setFile(e.dataTransfer.files[0]);
+  };
+
+  function setFile(file) {
+    if (!file || !file.name.endsWith('.csv')) {
+      showError('Please upload a CSV file.');
+      return;
+    }
+    selectedFile = file;
+    document.getElementById('fileName').textContent = `${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+    document.getElementById('fileSelected').classList.add('show');
+    hideError();
+  }
+
+  // ── Schema → table sync ───────────────────────────────────
+  document.getElementById('targetSchema').onchange = function() {
+    const tbl = document.getElementById('targetTable');
+    tbl.innerHTML = '';
+    const opts = {
+      retail_dwh: [
+        'staging.raw_transactions',
+        'staging.raw_customers',
+        'staging.raw_products'
+      ],
+      generic_sales: ['transactions', 'customers']
+    };
+    (opts[this.value] || []).forEach(t => {
+      const o = document.createElement('option');
+      o.value = o.textContent = t;
+      tbl.appendChild(o);
+    });
+  };
+
+  // ── Step helpers ──────────────────────────────────────────
+  const stepNames = ['schema_analyzer','llm_mapper','type_validator','anomaly_detector','code_generator'];
+
+  function setStep(idx, state, text) {
+    const el   = document.getElementById(`step${idx+1}`);
+    const stat = document.getElementById(`step${idx+1}Status`);
+    el.className = `step ${state}`;
+    stat.textContent = text;
+  }
+
+  function animateSteps(stages) {
+    stepNames.forEach((name, i) => {
+      const s = stages[name];
+      if (!s) return;
+      if (s.status === 'done') {
+        const extra = name === 'llm_mapper'
+          ? ` | mapped: ${s.mapped}`
+          : name === 'anomaly_detector'
+          ? ` | score: ${s.quality_score}`
+          : name === 'code_generator'
+          ? ` | ${s.lines} lines`
+          : '';
+        setStep(i, 'done', `✓ ${s.duration}s${extra}`);
+      }
+    });
+  }
+
+  // ── Run pipeline ──────────────────────────────────────────
+  async function runPipeline() {
+    if (!selectedFile) { showError('Please select a CSV file first.'); return; }
+
+    hideError();
+    document.getElementById('runBtn').disabled = true;
+    document.getElementById('runBtn').innerHTML = '<span class="spinner"></span>Running…';
+
+    // Show progress, hide results
+    document.getElementById('progressCard').classList.add('show');
+    document.getElementById('resultsCard').classList.remove('show');
+
+    // Animate steps as "running" sequentially while we wait
+    let activeStep = 0;
+    stepNames.forEach((_, i) => setStep(i, '', 'waiting'));
+    const stepTimer = setInterval(() => {
+      if (activeStep > 0) setStep(activeStep-1, 'done', 'done');
+      if (activeStep < stepNames.length) {
+        setStep(activeStep, 'active', 'running…');
+        activeStep++;
+      }
+    }, 1800);
+
+    try {
+      const form = new FormData();
+      form.append('file', selectedFile);
+      form.append('target_schema', document.getElementById('targetSchema').value);
+      form.append('target_table',  document.getElementById('targetTable').value);
+
+      const res  = await fetch(`${API}/map`, { method: 'POST', body: form });
+      const data = await res.json();
+
+      clearInterval(stepTimer);
+
+      if (!res.ok) {
+        showError(data.detail || 'Pipeline error. Check the server logs.');
+        resetBtn();
+        return;
+      }
+
+      // Sync real step statuses
+      animateSteps(data.pipeline_stages || {});
+
+      // Render results
+      renderResults(data);
+
+    } catch (err) {
+      clearInterval(stepTimer);
+      showError('Cannot reach AutoMapper API. Is python run.py running?');
+      resetBtn();
+    }
+  }
+
+  function resetBtn() {
+    const btn = document.getElementById('runBtn');
+    btn.disabled = false;
+    btn.innerHTML = '▶ Run AutoMapper Pipeline';
+  }
+
+  // ── Render results ────────────────────────────────────────
+  function renderResults(data) {
+    resetBtn();
+
+    const summary  = data.summary || {};
+    const mappings = data.mappings || [];
+    const anomalies = data.anomalies || [];
+    const unmapped = data.unmapped_columns || [];
+    const score    = summary.quality_score || 0;
+
+    // Quality ring
+    const scoreColor = score >= 80 ? '#00ff88' : score >= 60 ? '#ffd60a' : '#ff4757';
+    const circ = 2 * Math.PI * 30;
+    const fill = (score / 100) * circ;
+    document.getElementById('qualitySection').innerHTML = `
+      <div class="quality-ring">
+        <svg width="72" height="72" viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="30" fill="none" stroke="#2a2a3a" stroke-width="6"/>
+          <circle cx="36" cy="36" r="30" fill="none" stroke="${scoreColor}" stroke-width="6"
+            stroke-dasharray="${fill} ${circ}" stroke-linecap="round"/>
+        </svg>
+        <div class="quality-ring-num" style="color:${scoreColor}">${score}</div>
+      </div>
+      <div class="quality-info">
+        <h3>Data Quality Score</h3>
+        <p>${score >= 80 ? '✅ Data looks clean and ready to load.' : score >= 60 ? '⚠️ Some issues found — review recommendations.' : '❌ Significant data problems — review before loading.'}</p>
+        <p style="margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+          Pipeline: ${summary.pipeline_time_s}s &nbsp;|&nbsp; Job: <code>${data.job_id}</code>
+        </p>
+      </div>
+    `;
+
+    // Stats
+    document.getElementById('statsGrid').innerHTML = `
+      <div class="stat-box green">
+        <div class="stat-value">${summary.auto_approved || 0}</div>
+        <div class="stat-label">Auto-Approved</div>
+      </div>
+      <div class="stat-box yellow">
+        <div class="stat-value">${summary.needs_review || 0}</div>
+        <div class="stat-label">Needs Review</div>
+      </div>
+      <div class="stat-box red">
+        <div class="stat-value">${summary.manual_required || 0}</div>
+        <div class="stat-label">Manual Required</div>
+      </div>
+      <div class="stat-box cyan">
+        <div class="stat-value">${summary.total_columns || 0}</div>
+        <div class="stat-label">Total Columns</div>
+      </div>
+    `;
+
+    // Mappings table
+    if (mappings.length > 0) {
+      const rows = mappings.map(m => {
+        const badgeCls = m.status === 'AUTO_APPROVED' ? 'approved' : m.status === 'NEEDS_REVIEW' ? 'review' : 'manual';
+        const badgeTxt = m.status === 'AUTO_APPROVED' ? '✅ Auto' : m.status === 'NEEDS_REVIEW' ? '⚠️ Review' : '❌ Manual';
+        const conf = Math.round((m.confidence || 0) * 100);
+        const transform = m.transform ? `<code>${m.transform.substring(0,30)}${m.transform.length>30?'…':''}</code>` : '<span style="color:var(--muted);font-size:11px">direct</span>';
+        return `<tr>
+          <td><code>${m.source_col}</code></td>
+          <td style="color:var(--muted);font-size:18px;text-align:center">→</td>
+          <td><code>${m.target_col || '—'}</code></td>
+          <td style="font-size:11px;color:var(--muted)">${m.target_table || ''}</td>
+          <td>
+            <div class="conf-bar">
+              <div class="conf-track"><div class="conf-fill" style="width:${conf}%"></div></div>
+              <div class="conf-val">${conf}%</div>
+            </div>
+          </td>
+          <td>${transform}</td>
+          <td><span class="badge ${badgeCls}">${badgeTxt}</span></td>
+        </tr>`;
+      }).join('');
+
+      document.getElementById('mappingsTable').innerHTML = `
+        <table>
+          <thead><tr>
+            <th>Source Column</th><th></th><th>Target Column</th>
+            <th>Target Table</th><th>Confidence</th>
+            <th>Transform</th><th>Status</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    // Unmapped
+    if (unmapped.length > 0) {
+      document.getElementById('unmappedSection').style.display = 'block';
+      document.getElementById('unmappedList').innerHTML =
+        unmapped.map(c => `<div class="unmapped-tag">${c}</div>`).join('');
+    }
+
+    // Anomalies
+    if (anomalies.length > 0) {
+      document.getElementById('anomaliesSection').style.display = 'block';
+      document.getElementById('anomalyList').innerHTML = anomalies.map(a => `
+        <div class="anomaly-item ${a.severity === 'MEDIUM' ? 'warn' : ''}">
+          <div class="anomaly-icon">${a.severity === 'HIGH' ? '🔴' : '🟡'}</div>
+          <div class="anomaly-body">
+            <div class="anomaly-title">${a.type} — <code>${a.column}</code>
+              ${a.count ? `<span style="color:var(--muted);font-size:11px">(${a.count} rows)</span>` : ''}
+            </div>
+            <div class="anomaly-fix">Fix: ${a.fix}</div>
+          </div>
+          <span class="badge ${a.severity === 'HIGH' ? 'manual' : 'review'}">${a.severity}</span>
+        </div>`).join('');
+    }
+
+    // Download button
+    document.getElementById('downloadBtn').href = `${API}/download/${data.job_id}`;
+
+    // Show results
+    document.getElementById('resultsCard').classList.add('show');
+    document.getElementById('resultsCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorBanner');
+    el.textContent = '⚠ ' + msg;
+    el.classList.add('show');
+  }
+
+  function hideError() {
+    document.getElementById('errorBanner').classList.remove('show');
+  }
+</script>
+</body>
+</html>
